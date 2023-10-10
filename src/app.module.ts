@@ -11,7 +11,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env.desarrollo',
+      envFilePath: `.env.${process.env.NODE_ENV}`,
       isGlobal: true
     }),
     TypeOrmModule.forRootAsync({
@@ -20,7 +20,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       useFactory: (configService: ConfigService) => ({
         type: 'mysql',
         host: configService.get('HOST'),
-        port: +configService.get('PORT') || 4000,  // Usando + para convertir a número
+        port: configService.get('PORT'), 
         username: configService.get('USER'),
         password: configService.get('PASS'),
         database: configService.get('DB'),
